@@ -12,16 +12,21 @@
   </head>
 
   <body>
-    <div class="w-full flex justify-end">
+    <div class="w-full flex justify-end pt-10 mb-10 px-5 gap-5">
       <% if user_signed_in? %>
-        <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "inline-block mx-4 text-blue-500 hover:text-blue-700" %>
+        <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-session" %>
       <% else %>
-        <%= link_to "Sign up", new_user_registration_path, class: "inline-block mx-4 text-blue-500 hover:text-blue-700" %>
-        <%= link_to "Sign in", new_user_session_path, class: "inline-block mx-4 text-blue-500 hover:text-blue-700" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "btn-session" %>
+        <%= link_to "Sign in", new_user_session_path, class: "btn-session" %>
       <% end %>
     </div>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
+
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
