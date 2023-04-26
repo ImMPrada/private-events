@@ -11,3 +11,15 @@
 }
 
 */
+
+@layer components {
+  .btn-session {
+    @apply block py-2 px-4 bg-blue-200 text-blue-700 text-center font-bold rounded-lg hover:bg-blue-700 hover:text-white;
+  }
+  .notice {
+    @apply block py-2 px-4 bg-green-200 text-green-700 text-center font-bold;
+  }
+  .alert {
+    @apply block py-2 px-4 bg-red-200 text-red-700 text-center font-bold;
+  }
+}
