@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    @events = Event.all
+    @events = Event.all.includes(:creator)
   end
 
   def new
@@ -8,8 +8,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params)
-    @event.creator = current_user
+    @event = current_user.created_events.build(event_params)
 
     if @event.save
       respond_to { |format| update_events_list(format) }

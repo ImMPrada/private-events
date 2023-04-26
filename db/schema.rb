@@ -17,10 +17,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_195755) do
     t.datetime "start_date", null: false
     t.datetime "end_date", null: false
     t.integer "creator_id", null: false
-    t.integer "attendee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["attendee_id"], name: "index_events_on_attendee_id"
     t.index ["creator_id"], name: "index_events_on_creator_id"
   end
 
@@ -38,6 +36,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_195755) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "events", "users", column: "attendee_id"
   add_foreign_key "events", "users", column: "creator_id"
 end
