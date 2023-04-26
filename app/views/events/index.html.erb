@@ -1,0 +1,17 @@
+Events#Index
+<div id="events_list" class="flex flex-col mt-5">
+  <% if user_signed_in? %>
+    <%= link_to(
+      "Create new event",
+      new_event_path,
+      data: { turbo_frame: "new_event_form" },
+      class: "inline-block mx-4 text-blue-500 hover:text-blue-700")
+    %>
+  <% end %>
+
+  <turbo-frame id="new_event_form" class="min-w-full flex flex-column"></turbo-frame>
+
+  <div id="events_list" class="flex flex-col mt-5 mx-auto gap-5">
+      <%= render partial: 'partials/events/list', locals: { events: @events } %>
+  </div>
+</div>

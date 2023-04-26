@@ -1,0 +1,11 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.2.2
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
