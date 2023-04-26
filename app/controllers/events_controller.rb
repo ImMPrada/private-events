@@ -8,15 +8,15 @@ class EventsController < ApplicationController
   end
 
   def create
-    event = Event.new(event_params)
-    event.creator = current_user
+    @event = Event.new(event_params)
+    @event.creator = current_user
 
-    byebug
-
-    if event.save
-      redirect_to root_path
+    if @event.save
+      respond_to { |format| update_events_list(format) }
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new, notice: 'Event was not created.' }
+      end
     end
   end
 
@@ -24,5 +24,17 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:title, :description, :start_date, :end_date)
+  end
+
+  def update_events_list(format)
+    format.turbo_stream do
+      render turbo_stream: [
+        turbo_stream.prepend(:events_list,
+                             partial: 'partials/events/card',
+                             locals: { event: @event }),
+        turbo_stream.update(:new_event_form, '')
+      ]
+    end
+    format.html { redirect_to events_path, notice: 'Event was successfully created.' }
   end
 end
