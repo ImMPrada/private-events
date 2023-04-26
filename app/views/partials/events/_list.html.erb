@@ -1,5 +1,3 @@
 <% events.each do |event| %>
-  <div>
-    <%= "#{event.title} - #{event.description} - #{event.start_date} - #{event.end_date} - #{event.creator.username}" %>
-  </div>
+  <%= render partial: 'partials/events/card', locals: { event: } %>
 <% end %>

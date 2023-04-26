@@ -1,0 +1,13 @@
+<div class='w-full flex flex-col gap-2'>
+  <div class='flex justify-between gap-10'>
+    <div>
+      <%= content_tag(:span, event.title, class: 'block') %>
+      <%= content_tag(:span, event.description, class: 'block') %>
+    </div>
+    <div>
+      <%= content_tag(:span, "from: #{event.start_date}", class: 'block') %>
+      <%= content_tag(:span, "to: #{event.end_date}", class: 'block') %>
+    </div>
+  </div>
+  <%= content_tag(:span, "--- #{event.creator.username} ---", class: 'block') %>
+</div>
