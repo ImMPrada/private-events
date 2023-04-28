@@ -16,7 +16,7 @@
         <%= content_tag(:span, 'you are in! You are the creator of this event', class: 'notice') %>
         <%= link_to 'Take me out', '', class: 'alert' %>
       <% end %>
-      <%= link_to 'Count me in', '', class: 'btn-session' %>
+      <%= link_to 'Count me in', event_attendances_path(event), data: { 'turbo-method' => :post }, class: 'btn-session' %>
     <% end %>
   </div>
 </div>
