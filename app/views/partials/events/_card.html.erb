@@ -1,4 +1,4 @@
-<div class='w-full flex flex-col gap-2'>
+<div class='w-full flex flex-col gap-2 border-2 px-10 py-5'>
   <div class='flex justify-between gap-10'>
     <div>
       <%= content_tag(:span, event.title, class: 'block') %>
@@ -10,4 +10,13 @@
     </div>
   </div>
   <%= content_tag(:span, "--- #{event.creator.username} ---", class: 'block') %>
+  <div class='flex justify-start gap-2'>
+    <% if user_signed_in? %>
+      <% if current_user == event.creator %>
+        <%= content_tag(:span, 'you are in! You are the creator of this event', class: 'notice') %>
+        <%= link_to 'Take me out', '', class: 'alert' %>
+      <% end %>
+      <%= link_to 'Count me in', '', class: 'btn-session' %>
+    <% end %>
+  </div>
 </div>
