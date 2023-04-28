@@ -10,7 +10,7 @@ user = User.new
 
 user.username = 'simelomon_tolomeo'
 user.email = 'tolomeo@email.com'
-user.password = 'password1!'
+user.password = 'Password1!'
 
 puts 'user created' if user.save
 
@@ -45,3 +45,12 @@ event_params = {
 
 event = user.created_events.build(event_params)
 puts 'event created' if event.save
+
+user = User.new
+
+user.username = 'benito_camelas'
+user.email = 'benito@email.com'
+user.password = 'Password1!'
+
+puts 'user created' if user.save
+
