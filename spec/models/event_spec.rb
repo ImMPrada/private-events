@@ -12,6 +12,6 @@ RSpec.describe Event, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:creator) }
     it { is_expected.to have_many(:attendees) }
-    it { is_expected.to have_many(:attendee_to_events) }
+    it { is_expected.to have_many(:event_attendees) }
   end
 end

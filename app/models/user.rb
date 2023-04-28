@@ -5,8 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable # , :validatable
 
   has_many :created_events, foreign_key: :creator_id, class_name: 'Event', dependent: :destroy
-  has_many :attendee_to_events, foreign_key: :attendee_id, dependent: :destroy
-  has_many :attended_events, through: :attendee_to_events
+  has_many :event_attendees, foreign_key: :attendee_id, dependent: :destroy
+  has_many :attended_events, through: :event_attendees
 
   validates :email, presence: true, uniqueness: true, format: {
     with: URI::MailTo::EMAIL_REGEXP,

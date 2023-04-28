@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe AttendeeToEvent, type: :model do
-  subject(:attendee_to_event) { build(:attendee_to_event) }
+RSpec.describe EventAttendee, type: :model do
+  subject(:event_attendee) { build(:event_attendee) }
 
   describe 'associations' do
     it { is_expected.to belong_to(:attended_event) }

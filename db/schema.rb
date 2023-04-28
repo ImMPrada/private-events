@@ -11,13 +11,13 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_04_27_195343) do
-  create_table "attendee_to_events", force: :cascade do |t|
+  create_table "event_attendees", force: :cascade do |t|
     t.integer "attendee_id", null: false
     t.integer "attended_event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["attended_event_id"], name: "index_attendee_to_events_on_attended_event_id"
-    t.index ["attendee_id"], name: "index_attendee_to_events_on_attendee_id"
+    t.index ["attended_event_id"], name: "index_event_attendees_on_attended_event_id"
+    t.index ["attendee_id"], name: "index_event_attendees_on_attendee_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_195343) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "attendee_to_events", "events", column: "attended_event_id"
-  add_foreign_key "attendee_to_events", "users", column: "attendee_id"
+  add_foreign_key "event_attendees", "events", column: "attended_event_id"
+  add_foreign_key "event_attendees", "users", column: "attendee_id"
   add_foreign_key "events", "users", column: "creator_id"
 end
