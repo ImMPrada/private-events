@@ -8,49 +8,51 @@
 
 user = User.new
 
-user.username = 'simelomon_tolomeo'
-user.email = 'tolomeo@email.com'
+user.username = Faker::Internet.username(specifier: 3...20)
+user.email = Faker::Internet.email
 user.password = 'Password1!'
 
 puts 'user created' if user.save
 
-user = User.find_by(email: 'tolomeo@email.com')
+if Event.all.empty?
+  50.times do
+    user = User.all.sample
+    dates = Date.new([2001, 1995, 2015, 2020, 2022, 2023].sample, 03, 03)
 
-event_params = {
-  title: 'React conf',
-  description: 'lets talk about react',
-  start_date: '2021-10-10',
-  end_date: '2021-10-10'
-}
+    event_params = {
+      title: Faker::Quote.famous_last_words,
+      description: Faker::Quote.yoda,
+      start_date: dates,
+      end_date: dates
+    }
 
-event = user.created_events.build(event_params)
-puts 'event created' if event.save
-
-event_params = {
-  title: 'Ruby PP',
-  description: 'ruby programming y sessions of pair programming',
-  start_date: '2021-10-10',
-  end_date: '2021-10-10'
-}
-
-event = user.created_events.build(event_params)
-puts 'event created' if event.save
-
-event_params = {
-  title: 'warroom meeting',
-  description: 'for programmers xD',
-  start_date: '2021-10-10',
-  end_date: '2021-10-10'
-}
-
-event = user.created_events.build(event_params)
-puts 'event created' if event.save
+    event = user.created_events.build(event_params)
+    puts 'event created' if event.save
+  end
+end
 
 user = User.new
 
-user.username = 'benito_camelas'
-user.email = 'benito@email.com'
+user.username = Faker::Internet.username(specifier: 3...20)
+user.email = Faker::Internet.email
+user.password = 'Password1!'
+
+if user.save
+  puts 'user created'
+  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.first.id)
+  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.third.id)
+end
+
+user = User.new
+
+user.username = Faker::Internet.username(specifier: 3...20)
+user.email = Faker::Internet.email
 user.password = 'Password1!'
 
 puts 'user created' if user.save
 
+if user.save
+  puts 'user created'
+  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.first.id)
+  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.second.id)
+end
