@@ -6,13 +6,17 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-user = User.new
+if User.all.empty?
+  10.times do
+    user = User.new
 
-user.username = Faker::Internet.username(specifier: 3...20)
-user.email = Faker::Internet.email
-user.password = 'Password1!'
+    user.username = Faker::Internet.username(specifier: 3...20)
+    user.email = Faker::Internet.email
+    user.password = 'Password1!'
 
-puts 'user created' if user.save
+    puts 'user created' if user.save
+  end
+end
 
 if Event.all.empty?
   50.times do
