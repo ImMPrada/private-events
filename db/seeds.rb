@@ -34,29 +34,3 @@ if Event.all.empty?
     puts 'event created' if event.save
   end
 end
-
-user = User.new
-
-user.username = Faker::Internet.username(specifier: 3...20)
-user.email = Faker::Internet.email
-user.password = 'Password1!'
-
-if user.save
-  puts 'user created'
-  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.first.id)
-  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.third.id)
-end
-
-user = User.new
-
-user.username = Faker::Internet.username(specifier: 3...20)
-user.email = Faker::Internet.email
-user.password = 'Password1!'
-
-puts 'user created' if user.save
-
-if user.save
-  puts 'user created'
-  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.first.id)
-  EventAttendee.create(attendee_id: user.id, attended_event_id: Event.second.id)
-end

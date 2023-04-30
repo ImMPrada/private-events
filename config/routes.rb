@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   resources :events, only: %i[index new create]
 
   resources :events do
-    resources :attendances, only: %i[create destroy]
+    member do
+      get 'card'
+      post 'attend'
+      delete 'unattend'
+    end
   end
 end

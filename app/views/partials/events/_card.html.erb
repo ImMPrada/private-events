@@ -1,28 +1,36 @@
-<div id="<%= dom_id event %>" class='w-full flex flex-col gap-2 border-2 px-10 py-5'>
-  <div class='flex justify-between gap-10'>
-    <div>
-      <%= content_tag(:span, event.title, class: 'block') %>
-      <%= content_tag(:span, event.description, class: 'block') %>
-    </div>
-    <div>
-      <%= content_tag(:span, "from: #{event.start_date}", class: 'block') %>
-      <%= content_tag(:span, "to: #{event.end_date}", class: 'block') %>
-    </div>
+<div class='flex justify-between gap-10'>
+  <div>
+    <%= content_tag(:span, event.title, class: 'block') %>
+    <%= content_tag(:span, event.description, class: 'block') %>
   </div>
-  <%= content_tag(:span, "--- #{event.creator.username} ---", class: 'block') %>
-  <div class='flex justify-start gap-2'>
-    <% if user_signed_in? %>
-      <% if current_user.creator_of?(event) %>
-        <%= content_tag(:span, 'you are in! You are the creator of this event', class: 'notice') %>
-        <%= link_to 'Delete this event', '', class: 'alert' %>
+  <div>
+    <%= content_tag(:span, "from: #{event.start_date}", class: 'block') %>
+    <%= content_tag(:span, "to: #{event.end_date}", class: 'block') %>
+  </div>
+</div>
+<%= content_tag(:span, "--- #{event.creator.username} ---", class: 'block') %>
+<div class='flex justify-start gap-2'>
+  <% if user_signed_in? %>
+    <% if current_user.creator_of?(event) %>
+      <%= content_tag(:span, 'you are in! You are the creator of this event', class: 'notice') %>
+      <%= link_to 'Delete this event', '', class: 'alert' %>
+    <% else %>
+      <% if current_user.attendee_of?(event) %>
+        <%= content_tag(:span, 'you are in!', class: 'notice') %>
+        <%= link_to(
+          'Take me out',
+          unattend_event_path(event),
+          data: { 'turbo-method' => :delete },
+          class: 'alert'
+        ) %>
       <% else %>
-        <% if current_user.attendee_of?(event) %>
-          <%= content_tag(:span, 'you are in!', class: 'notice') %>
-          <%= link_to 'Take me out', '', class: 'alert' %>
-        <% else %>
-          <%= link_to 'Count me in', event_attendances_path(event), data: { 'turbo-method' => :post }, class: 'btn-session' %>
-        <% end %>
+        <%= link_to(
+          'Count me in',
+          attend_event_path(event),
+          data: { 'turbo-method' => :post },
+          class: 'btn-session'
+        ) %>
       <% end %>
     <% end %>
-  </div>
+  <% end %>
 </div>
