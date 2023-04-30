@@ -25,7 +25,10 @@ class EventsController < ApplicationController
     event_to_attend.attended_event = event
 
     if event_to_attend.save
-      byebug
+      respond_to { |format| call_card(format) }
+    else
+      flash[:notice] = 'Event was not attended.'
+      render :index
     end
   end
 
@@ -74,6 +77,6 @@ class EventsController < ApplicationController
   end
 
   def call_card(format)
-    format.html { redirect_to card_event_path(@event), notice: 'Event was successfully created.' }
+    format.html { redirect_to card_event_path(@event), nothing: '' }
   end
 end
