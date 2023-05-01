@@ -1,4 +1,4 @@
-<div class='flex justify-start gap-2'>
+<div id="<%= dom_id event %>_attendance_buttons" class='flex justify-start gap-2'>
   <% if user_signed_in? %>
     <% if current_user.creator_of?(event) %>
       <%= content_tag(:span, 'you are in! You are the creator of this event', class: 'notice') %>
