@@ -1,4 +1,7 @@
 class EventsController < ApplicationController
+  include Utils::TurboStreamAttendances::TurboStreamActions
+  include Utils::TurboStreamEvents::TurboStreamActions
+
   def show
     @event = event
     @attendees = @event.attendees
@@ -16,7 +19,7 @@ class EventsController < ApplicationController
     @event = current_user.created_events.build(event_params)
 
     if @event.save
-      respond_to { |format| update_events_list(format) }
+      respond_to { |format| update_events_list(format, @event) }
     else
       respond_to do |format|
         format.html { render :new, notice: 'Event was not created.' }
@@ -30,7 +33,7 @@ class EventsController < ApplicationController
     event_to_attend.attended_event = event
 
     if event_to_attend.save
-      respond_to { |format| add_attendee_to_this_event(format) }
+      respond_to { |format| add_attendee_to_this_event(format, @event) }
     else
       flash[:notice] = 'Event was not attended.'
       render :show
@@ -41,7 +44,7 @@ class EventsController < ApplicationController
     @event = event
 
     if event_to_unattend.destroy
-      respond_to { |format| call_card(format) }
+      respond_to { |format| remove_attendee_from_this_event(format, @event) }
     else
       flash[:notice] = 'Event was not unattended.'
       render :show
@@ -58,49 +61,11 @@ class EventsController < ApplicationController
     @event ||= Event.find(params[:id])
   end
 
-  def update_events_list(format)
-    format.turbo_stream do
-      render turbo_stream: [
-        turbo_stream.prepend(:events_list,
-                             partial: 'partials/events/card',
-                             locals: { event: @event }),
-        turbo_stream.update(:new_event_form, '')
-      ]
-    end
-    format.html { redirect_to events_path, notice: 'Event was successfully created.' }
-  end
-
   def event_to_unattend
     EventAttendee.find_by(
       'attendee_id=? AND attended_event_id=?',
       current_user.id,
       @event.id
-    )
-  end
-
-  def add_attendee_to_this_event(format)
-    format.turbo_stream do
-      render turbo_stream: [
-        add_attendee_to_list(turbo_stream, @event, current_user),
-        update_attendance_buttons(turbo_stream, @event, current_user)
-      ]
-    end
-    format.html { redirect_to event_path(@event), nothing: '' }
-  end
-
-  def add_attendee_to_list(turbo_stream, event, attendee)
-    turbo_stream.prepend(
-      "event_#{event.id}_attendees".to_sym,
-      partial: 'partials/attendees/card',
-      locals: { attendee: }
-    )
-  end
-
-  def update_attendance_buttons(turbo_stream, event, attendee)
-    turbo_stream.update(
-      "event_#{event.id}_attendance_buttons".to_sym,
-      partial: 'partials/buttons/attendance_buttons',
-      locals: { event: }
     )
   end
 end
