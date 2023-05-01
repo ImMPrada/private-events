@@ -2,9 +2,11 @@ class EventsController < ApplicationController
   include Utils::TurboStreamAttendances::TurboStreamActions
   include Utils::TurboStreamEvents::TurboStreamActions
 
+  before_action :authenticate_user!, except: %i[index]
+
   def show
     @event = event
-    @attendees = @event.attendees
+    @attendees = @event.attendees.order!('created_at DESC')
   end
 
   def index
@@ -58,7 +60,7 @@ class EventsController < ApplicationController
   end
 
   def event
-    @event ||= Event.find(params[:id])
+    Event.find(params[:id])
   end
 
   def event_to_unattend
