@@ -1,25 +1,29 @@
 <div id="<%= dom_id event %>_attendance_buttons" class='flex justify-start gap-2'>
   <% if user_signed_in? %>
+
     <% if current_user.creator_of?(event) %>
       <%= content_tag(:span, 'you are in! You are the creator of this event', class: 'notice') %>
       <%= link_to 'Delete this event', '', class: 'alert' %>
     <% else %>
+
       <% if current_user.attendee_of?(event) %>
         <%= content_tag(:span, 'you are in!', class: 'notice') %>
         <%= link_to(
           'Take me out',
-          unattend_event_path(event),
+          attendance_path(event.id),
           data: { 'turbo-method' => :delete },
           class: 'alert'
         ) %>
       <% else %>
         <%= link_to(
           'Count me in',
-          attend_event_path(event),
+          attendances_path({ event_id: event.id }),
           data: { 'turbo-method' => :post },
           class: 'btn-session'
         ) %>
       <% end %>
+
     <% end %>
+
   <% end %>
 </div>

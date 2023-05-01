@@ -17,7 +17,7 @@ module TurboStreamActions
     private
 
     def add_attendee_to_list(event, attendee)
-      turbo_stream.prepend(
+      turbo_stream.append(
         "event_#{event.id}_attendees".to_sym,
         partial: 'partials/attendees/card',
         locals: { attendee: }

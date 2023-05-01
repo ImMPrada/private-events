@@ -4,11 +4,9 @@ class AttendancesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    # event_attendee = EventAttendee.new(event_attendee_params)
     event_attendee = current_user.event_attendees.build(attended_event: event)
 
     if event_attendee.save
-      flash[:notice] = 'Event was not attended.'
       render turbo_stream: new_attendee_response(event, current_user)
     else
       flash[:alert] = 'Event was not attended.'

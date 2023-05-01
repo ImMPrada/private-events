@@ -1,12 +1,11 @@
 class EventsController < ApplicationController
-  include Utils::TurboStreamAttendances::TurboStreamActions
-  include Utils::TurboStreamEvents::TurboStreamActions
+  include TurboStreamActions::Events
 
   before_action :authenticate_user!, except: %i[index]
 
   def show
     @event = event
-    @attendees = @event.attendees.order!('created_at DESC')
+    @attendees = @event.attendees.order(created_at: :desc)
   end
 
   def index
@@ -26,30 +25,6 @@ class EventsController < ApplicationController
       respond_to do |format|
         format.html { render :new, notice: 'Event was not created.' }
       end
-    end
-  end
-
-  def attend
-    event_to_attend = EventAttendee.new
-    event_to_attend.attendee = current_user
-    event_to_attend.attended_event = event
-
-    if event_to_attend.save
-      respond_to { |format| add_attendee_to_this_event(format, @event) }
-    else
-      flash[:notice] = 'Event was not attended.'
-      render :show
-    end
-  end
-
-  def unattend
-    @event = event
-
-    if event_to_unattend.destroy
-      respond_to { |format| remove_attendee_from_this_event(format, @event) }
-    else
-      flash[:notice] = 'Event was not unattended.'
-      render :show
     end
   end
 
