@@ -1,0 +1,12 @@
+<div class='w-full flex flex-col gap-2 px-10'>
+  <turbo-frame id="<%= dom_id @event %>" class='w-full flex flex-col gap-2 border-2 px-10 py-5'>
+    <%= render partial: 'partials/events/card', locals: { event: @event } %>
+    <%= render partial: 'partials/buttons/attendance_buttons', locals: { event: @event } %>
+  </turbo-frame>
+
+  <div class='w-full flex flex-col gap-2 px-10 py-5'>
+    <% @attendees.each do |attendee| %>
+      <%= render partial: 'partials/attendees/card', locals: { attendee: attendee } %>
+    <% end %>
+  </div>
+</div>

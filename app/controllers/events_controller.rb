@@ -1,4 +1,9 @@
 class EventsController < ApplicationController
+  def show
+    @event = event
+    @attendees = @event.attendees
+  end
+
   def index
     @events = Event.all.includes(:creator)
   end
@@ -28,7 +33,7 @@ class EventsController < ApplicationController
       respond_to { |format| call_card(format) }
     else
       flash[:notice] = 'Event was not attended.'
-      render :index
+      render :show
     end
   end
 
@@ -39,11 +44,8 @@ class EventsController < ApplicationController
       respond_to { |format| call_card(format) }
     else
       flash[:notice] = 'Event was not unattended.'
+      render :show
     end
-  end
-
-  def card
-    @event = event
   end
 
   private
@@ -77,6 +79,14 @@ class EventsController < ApplicationController
   end
 
   def call_card(format)
+    format.turbo_stream do
+      render turbo_stream: [
+        turbo_stream.update("event_#{@event.id}".to_sym, ''),
+        turbo_stream.update("event_#{@event.id}".to_sym,
+                            partial: 'partials/events/card',
+                            locals: { event: @event })
+      ]
+    end
     format.html { redirect_to card_event_path(@event), nothing: '' }
   end
 end
