@@ -32,8 +32,4 @@ class AttendancesController < ApplicationController
   def event_attendee
     @event_attendee ||= EventAttendee.find_by(attendee: current_user, attended_event_id: params[:event_id])
   end
-
-  def event_attendee_params
-    { attendee: current_user, attended_event: event }
-  end
 end
