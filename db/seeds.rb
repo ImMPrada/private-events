@@ -19,9 +19,9 @@ if User.all.empty?
 end
 
 if Event.all.empty?
-  50.times do
+  150.times do
     user = User.all.sample
-    dates = Date.new([2001, 1995, 2015, 2020, 2022, 2023].sample, 03, 03)
+    dates = Date.new([2001, 2020, 2023, 2024].sample, Time.zone.today.month, Time.zone.today.day)
 
     event_params = {
       title: Faker::Quote.famous_last_words,
