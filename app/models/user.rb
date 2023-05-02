@@ -18,4 +18,12 @@ class User < ApplicationRecord
             uniqueness: true,
             length: { in: 3..20,
                       wrong_length: 'must be between 3 and 20 characters' }
+
+  def attendee_of?(event_id)
+    event_attendees.where(attended_event_id: event_id).exists?
+  end
+
+  def creator_of?(event)
+    event.creator_id == id
+  end
 end

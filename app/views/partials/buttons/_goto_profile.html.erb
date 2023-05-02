@@ -1,0 +1,15 @@
+<div class='flex justify-start gap-2'>
+  <% if user_signed_in? %>
+    <%= link_to(
+      "Go to event's page",
+      event_path(event),
+      class: 'btn-session',
+      data: { turbo: false }
+    ) %>
+    <% if current_user.creator_of?(event) %>
+      <span class="notice">
+        you are in! You are the creator of this event!
+      </span>
+    <% end %>
+  <% end %>
+</div>

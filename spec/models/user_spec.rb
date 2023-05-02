@@ -24,8 +24,36 @@ RSpec.describe User, type: :model do
   end
 
   describe 'associations' do
-    it { is_expected.to have_many(:created_events) }
-    it { is_expected.to have_many(:attended_events) }
-    it { is_expected.to have_many(:event_attendees) }
+    it { is_expected.to have_many(:created_events).dependent(:destroy) }
+    it { is_expected.to have_many(:attended_events).through(:event_attendees) }
+    it { is_expected.to have_many(:event_attendees).dependent(:destroy) }
+  end
+
+  describe 'when needs to know if user is creator of attendee' do
+    let(:event) { create(:event, creator: user) }
+    let(:another_event) { create(:event, creator: user) }
+    let(:attendee) { create(:user) }
+
+    before { create(:event_attendee, attendee:, attended_event: event) }
+
+    describe '#attendee_of?' do
+      it 'returns true if user is attendee of event' do
+        expect(attendee.attendee_of?(event.id)).to be true
+      end
+
+      it 'returns false if user is not attendee of event' do
+        expect(attendee.attendee_of?(another_event.id)).to be false
+      end
+    end
+
+    describe '#creator_of?' do
+      it 'returns true if user is creator of event' do
+        expect(user.creator_of?(event)).to be true
+      end
+
+      it 'returns false if user is not attendee of event' do
+        expect(attendee.creator_of?(another_event)).to be false
+      end
+    end
   end
 end

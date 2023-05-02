@@ -1,4 +1,13 @@
 class EventsController < ApplicationController
+  include TurboStreamActions::Events
+
+  before_action :authenticate_user!, except: %i[index]
+
+  def show
+    @event = event
+    @attendees = @event.attendees.order(created_at: :desc)
+  end
+
   def index
     @events = Event.all.includes(:creator)
   end
@@ -11,11 +20,9 @@ class EventsController < ApplicationController
     @event = current_user.created_events.build(event_params)
 
     if @event.save
-      respond_to { |format| update_events_list(format) }
+      respond_to { |format| update_events_list(format, @event) }
     else
-      respond_to do |format|
-        format.html { render :new, notice: 'Event was not created.' }
-      end
+      render :new, notice: 'Event was not created.'
     end
   end
 
@@ -25,15 +32,7 @@ class EventsController < ApplicationController
     params.require(:event).permit(:title, :description, :start_date, :end_date)
   end
 
-  def update_events_list(format)
-    format.turbo_stream do
-      render turbo_stream: [
-        turbo_stream.prepend(:events_list,
-                             partial: 'partials/events/card',
-                             locals: { event: @event }),
-        turbo_stream.update(:new_event_form, '')
-      ]
-    end
-    format.html { redirect_to events_path, notice: 'Event was successfully created.' }
+  def event
+    Event.find(params[:id])
   end
 end
