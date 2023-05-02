@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   root 'events#index'
 
-  resources :events, only: %i[index show new create]
+  resources :events, only: %i[index show new create destroy]
 
   resources :attendances, only: %i[create destroy], param: :event_id
 end
