@@ -26,6 +26,16 @@ class EventsController < ApplicationController
     end
   end
 
+  def destroy
+    return redirect_to(event_path(event), alert: 'Event was not deleted.') unless event.creator == current_user
+
+    if event.destroy
+      redirect_to(events_path, notice: 'Event was deleted.')
+    else
+      render(:show, alert: 'Event was not deleted.')
+    end
+  end
+
   private
 
   def event_params
