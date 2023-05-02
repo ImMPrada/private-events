@@ -7,7 +7,9 @@
       data: { turbo: false }
     ) %>
     <% if current_user.creator_of?(event) %>
-      <%= content_tag(:span, 'you are in! You are the creator of this event', class: 'notice') %>
+      <span class="notice">
+        you are in! You are the creator of this event!
+      </span>
     <% end %>
   <% end %>
 </div>

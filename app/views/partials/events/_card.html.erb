@@ -1,11 +1,21 @@
 <div class='flex justify-between gap-10'>
   <div>
-    <%= content_tag(:span, event.title, class: 'block') %>
-    <%= content_tag(:span, event.description, class: 'block') %>
+    <span class="block">
+      <%= event.title %>
+    </span>
+    <span class="block">
+      <%= event.description %>
+    </span>
   </div>
   <div>
-    <%= content_tag(:span, "from: #{event.start_date}", class: 'block') %>
-    <%= content_tag(:span, "to: #{event.end_date}", class: 'block') %>
+    <span class="block">
+      <%= "from: #{event.start_date}" %>
+    </span>
+    <span class="block">
+      <%= "to: #{event.end_date}" %>
+    </span>
   </div>
 </div>
-<%= content_tag(:span, "--- #{event.creator.username} ---", class: 'block') %>
+<span class="block">
+  <%= "--- #{event.creator.username} ---" %>
+</span>

@@ -19,8 +19,8 @@ class User < ApplicationRecord
             length: { in: 3..20,
                       wrong_length: 'must be between 3 and 20 characters' }
 
-  def attendee_of?(event)
-    EventAttendee.find_by('attendee_id=? AND attended_event_id=?', id, event.id).present?
+  def attendee_of?(event_id)
+    event_attendees.where(attended_event_id: event_id).exists?
   end
 
   def creator_of?(event)

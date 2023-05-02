@@ -37,12 +37,4 @@ class EventsController < ApplicationController
   def event
     Event.find(params[:id])
   end
-
-  def event_to_unattend
-    EventAttendee.find_by(
-      'attendee_id=? AND attended_event_id=?',
-      current_user.id,
-      @event.id
-    )
-  end
 end
