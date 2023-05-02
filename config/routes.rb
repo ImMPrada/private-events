@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   resources :events, only: %i[index show new create]
 
   resources :attendances, only: %i[create destroy], param: :event_id
+
+  resources :users, only: %i[show]
 end
