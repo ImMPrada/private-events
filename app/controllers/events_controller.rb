@@ -10,6 +10,8 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.all.includes(:creator)
+    @future_events = @events.active
+    @past_events = @events.expired
   end
 
   def new

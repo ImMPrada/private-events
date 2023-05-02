@@ -19,15 +19,15 @@ RSpec.describe Event, type: :model do
     let(:past_event) { create(:event, start_date: 1.day.ago, end_date: 1.day.ago + 1.hour) }
     let(:future_event) { create(:event, start_date: 1.day.from_now, end_date: 1.day.from_now + 1.hour) }
 
-    describe '.past' do
-      it 'returns past events' do
-        expect(described_class.past).to eq([past_event])
+    describe '.expired' do
+      it 'returns expired events' do
+        expect(described_class.expired).to eq([past_event])
       end
     end
 
-    describe '.future' do
-      it 'returns future events' do
-        expect(described_class.future).to eq([future_event])
+    describe '.active' do
+      it 'returns active events' do
+        expect(described_class.active).to eq([future_event])
       end
     end
   end

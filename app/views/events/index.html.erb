@@ -11,8 +11,20 @@
   <div>
     <turbo-frame id="new_event_form" class="min-w-full flex flex-column"></turbo-frame>
 
-    <div id="events_list" class="flex flex-col mt-5 mx-auto gap-5">
-        <%= render partial: 'partials/events/list', locals: { events: @events } %>
+    <div class='w-full flex flex-col gap-5 mt-5 mx-auto'>
+      <h3 class="block">
+        ACTIVE EVENTS:
+      </h3>
+      <div id="events_list" class="flex flex-col gap-5">
+        <%= render partial: 'partials/events/list', locals: { events: @future_events } %>
+      </div>
+    </div>
+
+    <div class='w-full flex flex-col gap-5 mt-10'>
+      <h3 class="block">
+        EXPIRED EVENTS:
+      </h3>
+      <%= render partial: 'partials/events/list', locals: { events: @past_events } %>
     </div>
   </div>
 </div>
