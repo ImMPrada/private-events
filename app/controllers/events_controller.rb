@@ -27,10 +27,12 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    return redirect_to(event_path(event), alert: 'Event was not deleted.') unless event.creator == current_user
+
     if event.destroy
-      redirect_to events_path, notice: 'Event was deleted.'
+      redirect_to(events_path, notice: 'Event was deleted.')
     else
-      render :show, alert: 'Event was not deleted.'
+      render(:show, alert: 'Event was not deleted.')
     end
   end
 
