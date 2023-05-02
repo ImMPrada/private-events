@@ -22,9 +22,7 @@ class EventsController < ApplicationController
     if @event.save
       respond_to { |format| update_events_list(format, @event) }
     else
-      respond_to do |format|
-        format.html { render :new, notice: 'Event was not created.' }
-      end
+      render :new, notice: 'Event was not created.'
     end
   end
 
