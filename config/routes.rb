@@ -9,5 +9,5 @@ Rails.application.routes.draw do
 
   resources :attendances, only: %i[create destroy], param: :event_id
 
-  resources :users, only: %i[show]
+  resource :profile, only: %i[show]
 end
