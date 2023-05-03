@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   resources :events, only: %i[index show new create destroy]
 
   resources :attendances, only: %i[create destroy], param: :event_id
+
+  resource :profile, only: %i[show]
 end
